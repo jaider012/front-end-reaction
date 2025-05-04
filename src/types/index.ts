@@ -155,11 +155,11 @@ export interface ApiResponse<T> {
   data: T;
 }
 
-export interface PaginatedResponse<T> extends ApiResponse<{
+export type PaginatedResponse<T> = ApiResponse<{
   items: T[];
   pagination: {
     page: number;
     limit: number;
     total: number;
   };
-}> {} 
+}>; 

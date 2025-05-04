@@ -8,7 +8,6 @@ import {
   UpdateSyncSessionRequest,
   CreateSyncProfileRequest,
   SyncState,
-  ViewLayout,
 } from '@/types';
 
 interface SyncStore {

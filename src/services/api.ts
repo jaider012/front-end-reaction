@@ -45,7 +45,9 @@ class ApiService {
         }
 
         // Show error toast
-        const message = error.response?.data?.message || error.message;
+        const message = error.response?.data && typeof error.response.data === 'object' && 'message' in error.response.data 
+          ? (error.response.data as { message: string }).message 
+          : error.message;
         toast.error(message);
 
         return Promise.reject(error);
@@ -54,17 +56,17 @@ class ApiService {
   }
 
   // Generic request methods
-  async get<T>(url: string, params?: any) {
+  async get<T>(url: string, params?: unknown) {
     const response = await this.api.get<T>(url, { params });
     return response.data;
   }
 
-  async post<T>(url: string, data?: any) {
+  async post<T>(url: string, data?: unknown) {
     const response = await this.api.post<T>(url, data);
     return response.data;
   }
 
-  async put<T>(url: string, data?: any) {
+  async put<T>(url: string, data?: unknown) {
     const response = await this.api.put<T>(url, data);
     return response.data;
   }

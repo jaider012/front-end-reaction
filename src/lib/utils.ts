@@ -85,7 +85,7 @@ export function extractVideoId(url: string): string | null {
 /**
  * Debounce a function
  */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
@@ -105,12 +105,11 @@ export function debounce<T extends (...args: any[]) => any>(
 /**
  * Throttle a function
  */
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends (...args: unknown[]) => unknown>(
   func: T,
   limit: number
 ): (...args: Parameters<T>) => void {
   let inThrottle: boolean;
-  let lastResult: ReturnType<T>;
 
   return function executedFunction(...args: Parameters<T>): void {
     if (!inThrottle) {

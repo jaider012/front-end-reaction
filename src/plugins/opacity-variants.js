@@ -3,7 +3,7 @@
  * en las clases de colores que fue eliminada en Tailwind v4
  */
 
-export default function({ addUtilities, matchUtilities, theme }) {
+export default function opacityVariantsPlugin({ addUtilities, matchUtilities, theme }) {
   // Valores de opacidad comunes
   const opacityValues = {
     '10': '0.1',
