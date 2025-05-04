@@ -103,7 +103,7 @@
     border-color: hsl(var(--border));
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-white;
   }
 
   /* Animaciones y transiciones globales */

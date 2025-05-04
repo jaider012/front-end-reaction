@@ -199,7 +199,7 @@ export function VideoPlayer({
         externalVideoRef.current = playerElement;
       }
     }
-  }, [reactPlayerReactionRef.current, reactPlayerExternalRef.current]);
+  }, [reactPlayerReactionRef.current, reactPlayerExternalRef.current, reactionVideoRef, externalVideoRef]);
 
   return (
     <div className={containerClasses}>

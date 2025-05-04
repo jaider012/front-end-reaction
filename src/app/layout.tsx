@@ -53,7 +53,7 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#7C3AED" />
       </head>
-      <body className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/30 selection:text-primary-dark">
+      <body className="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-white font-sans selection:bg-purple-300 selection:text-purple-900">
         {children}
         <Toaster 
           position="top-right" 

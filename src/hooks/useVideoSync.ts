@@ -34,7 +34,7 @@ export function useVideoSync(sessionId: string) {
         clearInterval(positionIntervalRef.current);
       }
     };
-  }, [sessionId]);
+  }, [sessionId, syncStore]);
 
   // Start position tracking when playing
   useEffect(() => {
@@ -61,7 +61,7 @@ export function useVideoSync(sessionId: string) {
         clearInterval(positionIntervalRef.current);
       }
     };
-  }, [isPlaying, session, sessionId]);
+  }, [isPlaying, session, sessionId, syncStore]);
 
   // Sync playback state between videos
   const handlePlay = useCallback(() => {
@@ -152,7 +152,7 @@ export function useVideoSync(sessionId: string) {
       toast.error("Failed to start countdown sync");
       console.error(error);
     }
-  }, [sessionId, handlePlay]);
+  }, [sessionId, handlePlay, syncStore]);
 
   // Set timestamp sync
   const setTimestampSync = useCallback(
@@ -170,7 +170,7 @@ export function useVideoSync(sessionId: string) {
         console.error(error);
       }
     },
-    [sessionId, session]
+    [sessionId, session, syncStore]
   );
 
   return {

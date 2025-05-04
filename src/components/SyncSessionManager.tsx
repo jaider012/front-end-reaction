@@ -31,7 +31,7 @@ export function SyncSessionManager({
     } else if (profile) {
       syncStore.createSessionFromProfile(profile.id).catch(console.error);
     }
-  }, [sessionId, profile]);
+  }, [sessionId, profile, syncStore]);
 
   const handleGenerateShareLink = async () => {
     if (!currentSession) return;
