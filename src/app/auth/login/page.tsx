@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuthStore } from '@/store/auth';
 import Link from 'next/link';
 import { toast } from 'react-hot-toast';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
-export default function LoginPage() {
+// Create a separate component that uses useSearchParams
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const returnUrl = searchParams.get('returnUrl') || '/';
@@ -154,5 +155,53 @@ export default function LoginPage() {
         </button>
       </div>
     </>
+  );
+}
+
+// Loading fallback
+function LoginFormFallback() {
+  return (
+    <div className="animate-pulse">
+      <div className="space-y-5">
+        <div>
+          <div className="h-5 w-40 bg-gray-200 rounded mb-1"></div>
+          <div className="h-12 bg-gray-200 rounded"></div>
+        </div>
+        <div>
+          <div className="h-5 w-40 bg-gray-200 rounded mb-1"></div>
+          <div className="h-12 bg-gray-200 rounded"></div>
+        </div>
+        <div className="flex items-center">
+          <div className="h-4 w-4 bg-gray-200 rounded"></div>
+          <div className="ml-2 h-4 w-32 bg-gray-200 rounded"></div>
+        </div>
+        <div className="h-12 bg-gray-200 rounded"></div>
+      </div>
+    </div>
+  );
+}
+
+// Main login page component
+export default function LoginPage() {
+  return (
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
+            Sign in to your account
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            Or{' '}
+            <Link href="/auth/register" className="font-medium text-purple-600 hover:text-purple-500">
+              create a new account
+            </Link>
+          </p>
+        </div>
+        
+        <Suspense fallback={<LoginFormFallback />}>
+          <LoginForm />
+        </Suspense>
+      </div>
+    </div>
   );
 } 
