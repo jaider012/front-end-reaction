@@ -40,7 +40,7 @@ export default function RegisterPage() {
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Or{' '}
-            <Link href="/auth/login" className="font-medium text-primary hover:text-primary-dark">
+            <Link href="/auth/login" className="font-medium text-purple-600 hover:text-purple-800">
               sign in to your existing account
             </Link>
           </p>
@@ -60,7 +60,7 @@ export default function RegisterPage() {
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
               />
             </div>
             
@@ -76,7 +76,7 @@ export default function RegisterPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
               />
             </div>
             
@@ -92,7 +92,7 @@ export default function RegisterPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
               />
             </div>
             
@@ -108,7 +108,7 @@ export default function RegisterPage() {
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
               />
             </div>
           </div>
@@ -119,9 +119,9 @@ export default function RegisterPage() {
               disabled={isLoading}
               className={`group relative flex w-full justify-center rounded-md ${
                 isLoading
-                  ? 'bg-primary-light cursor-not-allowed'
-                  : 'bg-primary hover:bg-primary-dark'
-              } px-4 py-2 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary`}
+                  ? 'bg-purple-400 cursor-not-allowed'
+                  : 'bg-purple-600 hover:bg-purple-700'
+              } px-4 py-2 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500`}
             >
               {isLoading ? 'Creating account...' : 'Create account'}
             </button>
@@ -129,11 +129,11 @@ export default function RegisterPage() {
           
           <div className="text-center text-sm text-gray-600">
             By signing up, you agree to our{' '}
-            <Link href="/terms" className="font-medium text-primary hover:text-primary-dark">
+            <Link href="/terms" className="font-medium text-purple-600 hover:text-purple-800">
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link href="/privacy" className="font-medium text-primary hover:text-primary-dark">
+            <Link href="/privacy" className="font-medium text-purple-600 hover:text-purple-800">
               Privacy Policy
             </Link>
           </div>

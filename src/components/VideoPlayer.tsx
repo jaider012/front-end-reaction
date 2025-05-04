@@ -199,7 +199,7 @@ export function VideoPlayer({
         externalVideoRef.current = playerElement;
       }
     }
-  }, [reactPlayerReactionRef.current, reactPlayerExternalRef.current, reactionVideoRef, externalVideoRef]);
+  }, []); // Empty dependency array since we only want this to run once
 
   return (
     <div className={containerClasses}>
