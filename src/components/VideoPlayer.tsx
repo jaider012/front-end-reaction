@@ -2,7 +2,7 @@ import ReactPlayer from "react-player";
 import { useVideoSync } from "@/hooks/useVideoSync";
 import { Video, ViewLayout } from "@/types";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 interface VideoPlayerProps {
   sessionId: string;
@@ -19,12 +19,15 @@ export function VideoPlayer({
   layout = ViewLayout.SIDE_BY_SIDE,
   className,
 }: VideoPlayerProps) {
+  // Crear refs para ReactPlayer
+  const reactPlayerReactionRef = useRef<ReactPlayer>(null);
+  const reactPlayerExternalRef = useRef<ReactPlayer>(null);
+
   const {
     reactionVideoRef,
     externalVideoRef,
     isPlaying,
     countdown,
-    session,
     handlePlay,
     handlePause,
     handleTimeUpdate,
@@ -32,10 +35,8 @@ export function VideoPlayer({
     setPlaybackRate,
     skipTime,
     startCountdownSync,
-    setTimestampSync,
   } = useVideoSync(sessionId);
 
-  const [showControls, setShowControls] = useState(false);
   const [playbackRate, setPlaybackRateState] = useState(1);
   const [reactionVolume, setReactionVolume] = useState(0.8);
   const [externalVolume, setExternalVolume] = useState(0.8);
@@ -77,8 +78,8 @@ export function VideoPlayer({
   const CountdownOverlay = () => {
     if (!countdown) return null;
     return (
-      <div className="absolute inset-0 flex items-center justify-center bg-black/75 z-50">
-        <div className="text-7xl font-bold text-white bg-blue-600/20 p-10 rounded-full w-40 h-40 flex items-center justify-center backdrop-blur-md border-4 border-blue-500/50">
+      <div className="absolute inset-0 flex items-center justify-center bg-black-opacity-75 z-50">
+        <div className="text-7xl font-bold text-white bg-blue-opacity-20 p-10 rounded-full w-40 h-40 flex items-center justify-center backdrop-blur-md border-4 border-blue-opacity-50">
           {countdown}
         </div>
       </div>
@@ -87,7 +88,7 @@ export function VideoPlayer({
 
   // Video Label
   const VideoLabel = ({ title, isReaction }: { title: string; isReaction: boolean }) => (
-    <div className="absolute top-0 left-0 right-0 p-2 bg-gradient-to-b from-black/70 to-transparent text-white z-10">
+    <div className="absolute top-0 left-0 right-0 p-2 bg-gradient-to-b from-black to-transparent text-white z-10 opacity-70">
       <div className="flex items-center">
         <span className={`px-2 py-1 text-xs font-medium rounded-md ${isReaction ? "bg-blue-600" : "bg-purple-600"} mr-2`}>
           {isReaction ? "REACTION" : "SOURCE"}
@@ -100,16 +101,14 @@ export function VideoPlayer({
   // Controls overlay
   const ControlsOverlay = ({ isReaction }: { isReaction: boolean }) => (
     <div 
-      className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
-      onMouseEnter={() => setShowControls(true)}
-      onMouseLeave={() => setShowControls(false)}
+      className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
     >
       <div className="flex flex-col space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <button
               onClick={() => (isPlaying ? handlePause() : handlePlay())}
-              className="p-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors backdrop-blur-sm"
+              className="p-2 rounded-full bg-white-opacity-20 text-white hover:bg-white-opacity-30 transition-colors backdrop-blur-sm"
               aria-label={isPlaying ? "Pause" : "Play"}
             >
               {isPlaying ? (
@@ -124,7 +123,7 @@ export function VideoPlayer({
             </button>
             <button
               onClick={() => skipTime(-10)}
-              className="p-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors backdrop-blur-sm"
+              className="p-2 rounded-full bg-white-opacity-20 text-white hover:bg-white-opacity-30 transition-colors backdrop-blur-sm"
               aria-label="Rewind 10 seconds"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
@@ -133,7 +132,7 @@ export function VideoPlayer({
             </button>
             <button
               onClick={() => skipTime(10)}
-              className="p-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors backdrop-blur-sm"
+              className="p-2 rounded-full bg-white-opacity-20 text-white hover:bg-white-opacity-30 transition-colors backdrop-blur-sm"
               aria-label="Forward 10 seconds"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
@@ -141,7 +140,7 @@ export function VideoPlayer({
               </svg>
             </button>
             <div className="ml-2 flex items-center space-x-1">
-              <span className="text-xs text-white/80">Volume:</span>
+              <span className="text-xs text-white-opacity-80">Volume:</span>
               <input
                 type="range"
                 min="0"
@@ -164,7 +163,7 @@ export function VideoPlayer({
         
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <span className="text-xs text-white/80">Speed:</span>
+            <span className="text-xs text-white-opacity-80">Speed:</span>
             {[0.5, 0.75, 1, 1.25, 1.5, 2].map((rate) => (
               <button
                 key={rate}
@@ -172,7 +171,7 @@ export function VideoPlayer({
                 className={`px-2 py-0.5 text-xs rounded ${
                   playbackRate === rate
                     ? "bg-blue-600 text-white"
-                    : "bg-white/20 text-white hover:bg-white/30"
+                    : "bg-white-opacity-20 text-white hover:bg-white-opacity-30"
                 } transition-colors`}
               >
                 {rate}x
@@ -184,19 +183,37 @@ export function VideoPlayer({
     </div>
   );
 
+  // Usamos useEffect para conectar los refs de ReactPlayer con los HTMLVideoElements
+  useEffect(() => {
+    // Acceder al video nativo dentro de ReactPlayer cuando esté disponible
+    if (reactPlayerReactionRef.current && 'getInternalPlayer' in reactPlayerReactionRef.current) {
+      const playerElement = reactPlayerReactionRef.current.getInternalPlayer() as HTMLVideoElement;
+      if (playerElement && reactionVideoRef.current !== playerElement) {
+        reactionVideoRef.current = playerElement;
+      }
+    }
+    
+    if (reactPlayerExternalRef.current && 'getInternalPlayer' in reactPlayerExternalRef.current) {
+      const playerElement = reactPlayerExternalRef.current.getInternalPlayer() as HTMLVideoElement;
+      if (playerElement && externalVideoRef.current !== playerElement) {
+        externalVideoRef.current = playerElement;
+      }
+    }
+  }, [reactPlayerReactionRef.current, reactPlayerExternalRef.current]);
+
   return (
     <div className={containerClasses}>
       <div className={videoClasses}>
         <VideoLabel title={reactionVideo.title || "Reaction Video"} isReaction={true} />
         <ReactPlayer
-          ref={reactionVideoRef}
+          ref={reactPlayerReactionRef}
           url={reactionVideo.url}
           width="100%"
           height="100%"
           playing={isPlaying}
           onPlay={handlePlay}
           onPause={handlePause}
-          onProgress={({ playedSeconds }) => handleTimeUpdate(true)}
+          onProgress={() => handleTimeUpdate(true)}
           playbackRate={playbackRate}
           volume={reactionVolume}
           config={{
@@ -204,6 +221,11 @@ export function VideoPlayer({
               playerVars: { 
                 modestbranding: 1,
                 rel: 0
+              }
+            },
+            file: {
+              attributes: {
+                controlsList: 'nodownload'
               }
             }
           }}
@@ -215,14 +237,14 @@ export function VideoPlayer({
       <div className={videoClasses}>
         <VideoLabel title={externalVideo.title || "Source Video"} isReaction={false} />
         <ReactPlayer
-          ref={externalVideoRef}
+          ref={reactPlayerExternalRef}
           url={externalVideo.url}
           width="100%"
           height="100%"
           playing={isPlaying}
           onPlay={handlePlay}
           onPause={handlePause}
-          onProgress={({ playedSeconds }) => handleTimeUpdate(false)}
+          onProgress={() => handleTimeUpdate(false)}
           playbackRate={playbackRate}
           volume={externalVolume}
           config={{
@@ -230,6 +252,11 @@ export function VideoPlayer({
               playerVars: { 
                 modestbranding: 1,
                 rel: 0
+              }
+            },
+            file: {
+              attributes: {
+                controlsList: 'nodownload'
               }
             }
           }}
