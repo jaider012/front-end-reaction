@@ -15,11 +15,10 @@ export default {
     theme: {
         extend: {
             colors: {
-                background: 'hsl(var(--background))',
-                foreground: 'hsl(var(--foreground))',
                 primary: {
-                    DEFAULT: 'hsl(var(--primary))',
-                    foreground: 'hsl(var(--primary-foreground))',
+                    DEFAULT: 'rgb(var(--color-primary) / <alpha-value>)',
+                    light: 'rgb(var(--color-primary-light) / <alpha-value>)',
+                    dark: 'rgb(var(--color-primary-dark) / <alpha-value>)',
                     50: '#f0f9ff',
                     100: '#e0f2fe',
                     200: '#bae6fd',
@@ -33,8 +32,9 @@ export default {
                     950: '#082f49',
                 },
                 secondary: {
-                    DEFAULT: 'hsl(var(--secondary))',
-                    foreground: 'hsl(var(--secondary-foreground))',
+                    DEFAULT: 'rgb(var(--color-secondary) / <alpha-value>)',
+                    light: 'rgb(var(--color-secondary-light) / <alpha-value>)',
+                    dark: 'rgb(var(--color-secondary-dark) / <alpha-value>)',
                     50: '#f5f3ff',
                     100: '#ede9fe',
                     200: '#ddd6fe',
@@ -46,6 +46,21 @@ export default {
                     800: '#5b21b6',
                     900: '#4c1d95',
                     950: '#2e1065',
+                },
+                accent: {
+                    1: 'rgb(var(--color-accent-1) / <alpha-value>)',
+                    2: 'rgb(var(--color-accent-2) / <alpha-value>)',
+                },
+                success: 'rgb(var(--color-success) / <alpha-value>)',
+                warning: 'rgb(var(--color-warning) / <alpha-value>)',
+                error: 'rgb(var(--color-error) / <alpha-value>)',
+                info: 'rgb(var(--color-info) / <alpha-value>)',
+                background: 'rgb(var(--color-background) / <alpha-value>)',
+                foreground: 'rgb(var(--color-foreground) / <alpha-value>)',
+                surface: {
+                    1: 'rgb(var(--color-surface-1) / <alpha-value>)',
+                    2: 'rgb(var(--color-surface-2) / <alpha-value>)',
+                    3: 'rgb(var(--color-surface-3) / <alpha-value>)',
                 },
                 gray: {
                     50: '#f9fafb',
@@ -75,13 +90,18 @@ export default {
                 '144': '36rem',
             },
             fontFamily: {
-                sans: ['Inter var', 'sans-serif'],
+                sans: ['Inter var', 'Inter', 'sans-serif'],
+                heading: ['Outfit', 'sans-serif'],
             },
             fontSize: {
                 '2xs': ['0.625rem', { lineHeight: '0.75rem' }],
             },
             borderRadius: {
-                '4xl': '2rem',
+                'sm': 'var(--radius-sm)',
+                'md': 'var(--radius-md)',
+                'lg': 'var(--radius-lg)',
+                'xl': 'var(--radius-xl)',
+                '2xl': 'var(--radius-2xl)',
             },
             animation: {
                 'spin-slow': 'spin 3s linear infinite',
@@ -121,7 +141,9 @@ export default {
                 '100': '100',
             },
             transitionDuration: {
-                '400': '400ms',
+                'fast': 'var(--animation-fast)',
+                'normal': 'var(--animation-normal)',
+                'slow': 'var(--animation-slow)',
             },
             transitionDelay: {
                 '400': '400ms',
@@ -148,6 +170,12 @@ export default {
             },
             borderColor: {
                 'blue-opacity-50': 'rgba(59, 130, 246, 0.5)',
+            },
+            boxShadow: {
+                'sm': 'var(--shadow-sm)',
+                'md': 'var(--shadow-md)',
+                'lg': 'var(--shadow-lg)',
+                'xl': 'var(--shadow-xl)',
             },
         },
     },
